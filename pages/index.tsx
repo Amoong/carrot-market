@@ -31,7 +31,7 @@ const Home: NextPage = () => {
           Checkout
         </button>
       </div>
-      <div className="bg-white overflow-hidden rounded-3xl shadow-xl">
+      <div className="bg-white overflow-hidden rounded-3xl shadow-xl group">
         <div className="bg-blue-500 p-6 pb-14 ">
           <span className="text-white text-2xl">Profile</span>
         </div>
@@ -41,7 +41,7 @@ const Home: NextPage = () => {
               <span className="text-sm text-gray-500">Orders</span>
               <span className="font-medium">340</span>
             </div>
-            <div className="h-24 w-24 bg-red-400 rounded-full"></div>
+            <div className="h-24 w-24 bg-red-400 rounded-full group-hover:bg-green-500 transition-colors"></div>
             <div className="flex flex-col items-center">
               <span className="text-sm text-gray-500">Spent</span>
               <span className="font-medium">$340</span>
@@ -90,6 +90,11 @@ const Home: NextPage = () => {
           </button>
         </div>
       </div>
+      <form action="" className="flex flex-col h-80 gap-5 bg-white focus-within:bg-red-50">
+        <input required className="peer bg-blue-500 invalid:bg-red-500 placeholder-shown:bg-green-500 required:border-2 border-yellow-500" type="text" />
+        <span className="hidden peer-invalid:block text-red-500">Invalid!</span>
+        <span className="hidden peer-valid:block text-teal-400">Valid!</span>
+      </form>
     </div>
   );
 };
