@@ -4,6 +4,7 @@ interface LoginForm {
   username: string;
   password: string;
   email: string;
+  error?: string;
 }
 
 export default function Forms() {
@@ -11,11 +12,17 @@ export default function Forms() {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
+    setError,
+    reset,
+    resetField,
   } = useForm<LoginForm>({
     mode: "onChange",
   });
   const onValid = (data: LoginForm) => {
     console.log("im valid baby");
+    setError("error", { message: "Backed is offline sorry." });
+    resetField("password");
   };
   const onInvalid = (errors: FieldErrors) => {
     console.log(errors);
@@ -52,6 +59,7 @@ export default function Forms() {
         placeholder="Password"
       />
       <button>submit</button>
+      {errors.error?.message}
     </form>
   );
 }
