@@ -1,15 +1,28 @@
-import { useForm } from "react-hook-form";
+import { FieldError, FieldErrors, useForm } from "react-hook-form";
+
+interface LoginForm {
+  username: string;
+  password: string;
+  email: string;
+}
 
 export default function Forms() {
-  const { register, handleSubmit } = useForm();
-  const onValid = () => {
+  const { register, handleSubmit } = useForm<LoginForm>();
+  const onValid = (data: LoginForm) => {
     console.log("im valid baby");
   };
+  const onInvalid = (errors: FieldErrors) => {
+    console.log(errors);
+  };
   return (
-    <form onSubmit={handleSubmit(onValid)}>
+    <form onSubmit={handleSubmit(onValid, onInvalid)}>
       <input
         {...register("username", {
-          required: true,
+          required: "Username is required",
+          minLength: {
+            message: "The user name should be",
+            value: 5,
+          },
         })}
         type="text"
         placeholder="Username"
