@@ -7,7 +7,13 @@ interface LoginForm {
 }
 
 export default function Forms() {
-  const { register, handleSubmit } = useForm<LoginForm>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginForm>({
+    mode: "onChange",
+  });
   const onValid = (data: LoginForm) => {
     console.log("im valid baby");
   };
@@ -28,10 +34,18 @@ export default function Forms() {
         placeholder="Username"
       />
       <input
-        {...register("email", { required: true })}
+        {...register("email", {
+          required: "Email is required",
+          validate: {
+            notGmail: (value) =>
+              !value.includes("@gmail.com") || "Gmail is not allowed",
+          },
+        })}
         type="email"
         placeholder="Email"
+        className={Boolean(errors.email) ? "border-red-500" : ""}
       />
+      {errors.email?.message}
       <input
         {...register("password", { required: true })}
         type="password"
