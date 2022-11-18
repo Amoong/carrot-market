@@ -2,6 +2,7 @@ import client from "@libs/server/client";
 import twilio from "twilio";
 import withHandler, { ResponseType } from "@libs/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
+import { withApiSession } from "@libs/server/withSession";
 
 const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
 
@@ -10,7 +11,7 @@ async function handler(
   res: NextApiResponse<ResponseType>
 ) {
   const { phone, email } = req.body;
-  const user = phone ? { phone: Number(phone) } : email ? { email } : null;
+  const user = phone ? { phone } : email ? { email } : null;
   if (!user) return res.status(400).json({ ok: false });
   const payload = `${Math.floor(100000 + Math.random() * 900000)}`;
 
@@ -72,4 +73,6 @@ async function handler(
   });
 }
 
-export default withHandler("POST", handler);
+export default withApiSession(
+  withHandler({ method: "POST", handler, isPrivate: false })
+);
