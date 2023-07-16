@@ -8,5 +8,5 @@ export default async function handler(
     res.status(405).setHeader("Allow", "[POST]").end();
   }
 
-  res.status(200).end();
+  res.status(200).send({ ok: true });
 }
