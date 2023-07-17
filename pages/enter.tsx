@@ -27,8 +27,6 @@ const Enter: NextPage = () => {
   };
 
   const onValid = (validForm: EnterForm) => {
-    setSubmitting(true);
-
     enter(validForm);
   };
 
@@ -86,11 +84,11 @@ const Enter: NextPage = () => {
               kind="phone"
             />
           ) : null}
-          {method === "email" ? <Button text={"Get login link"} /> : null}
+          {method === "email" ? (
+            <Button text={loading ? "loading..." : "Get login link"} />
+          ) : null}
           {method === "phone" ? (
-            <Button
-              text={submitting ? "loading..." : "Get one-time password"}
-            />
+            <Button text={loading ? "loading..." : "Get one-time password"} />
           ) : null}
         </form>
 

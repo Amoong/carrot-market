@@ -14,6 +14,8 @@ export default function useMutation(
   const [error, setError] = useState<undefined | any>(undefined);
 
   function enter(data: any) {
+    setLoading(true);
+
     fetch(url, {
       method: "POST",
       headers: {
