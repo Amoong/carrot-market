@@ -1,71 +1,38 @@
 import client from "@libs/client/client";
-import withHandler from "@libs/server/withHandler";
+import withHandler, { ResponseType } from "@libs/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<ResponseType>
+) {
   const { phone, email } = req.body;
-  const payload = phone ? { phone } : { email };
+
+  if (!phone && !email) {
+    return res.status(400).json({ ok: false });
+  }
+
+  const user = phone ? { phone } : { email };
+  const payload = Math.floor(100000 + Math.random() * 900000).toString();
 
   const token = await client.token.create({
     data: {
-      payload: "345",
+      payload,
       user: {
         connectOrCreate: {
           where: {
-            ...payload,
+            ...user,
           },
           create: {
             name: "Anonymous",
-            ...payload,
+            ...user,
           },
         },
       },
     },
   });
 
-  console.log(token);
-
-  // if (email) {
-  //   user = await client.user.findUnique({
-  //     where: {
-  //       email,
-  //     },
-  //   });
-
-  //   if (!user) {
-  //     console.log("Did not find, will create");
-  //     user = await client.user.create({
-  //       data: {
-  //         name: "Anonymous",
-  //         email,
-  //       },
-  //     });
-  //   }
-
-  //   console.log(user);
-  // }
-
-  // if (phone) {
-  //   user = await client.user.findUnique({
-  //     where: {
-  //       phone,
-  //     },
-  //   });
-
-  //   if (!user) {
-  //     console.log("Did not find, will create");
-  //     user = await client.user.create({
-  //       data: {
-  //         name: "Anonymous",
-  //         phone,
-  //       },
-  //     });
-  //   }
-
-  //   console.log(user);
-  // }
-
-  res.status(200).end();
+  res.json({ ok: true });
 }
 
 export default withHandler("POST", handler);
