@@ -1,7 +1,10 @@
+import mail from "@sendgrid/mail";
 import client from "@libs/client/client";
 import withHandler, { ResponseType } from "@libs/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Twilio } from "twilio";
+
+mail.setApiKey(process.env.SEND_GRID_API_KEY!);
 
 const twilioClient = new Twilio(
   process.env.TWILIO_SID,
@@ -44,6 +47,16 @@ async function handler(
       to: process.env.MY_PHONE!,
       body: `Your login token is ${payload}.`,
     });
+  } else if (email) {
+    const email = await mail.send({
+      from: "moo1323@naver.com",
+      to: "moo1323@naver.com",
+      subject: "Your Carrot Market Verification Email",
+      text: `Your token is ${payload}`,
+      html: `<strong>Your token is ${payload}</strong>`,
+    });
+
+    console.log(email);
   }
 
   res.json({ ok: true });
