@@ -6,18 +6,24 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { phone, email } = req.body;
   const payload = phone ? { phone } : { email };
 
-  const user = await client.user.upsert({
-    where: {
-      ...payload,
+  const token = await client.token.create({
+    data: {
+      payload: "345",
+      user: {
+        connectOrCreate: {
+          where: {
+            ...payload,
+          },
+          create: {
+            name: "Anonymous",
+            ...payload,
+          },
+        },
+      },
     },
-    create: {
-      name: "Anonymous",
-      ...payload,
-    },
-    update: {},
   });
 
-  console.log(user);
+  console.log(token);
 
   // if (email) {
   //   user = await client.user.findUnique({
