@@ -42,21 +42,19 @@ async function handler(
   });
 
   if (phone) {
-    await twilioClient.messages.create({
-      messagingServiceSid: process.env.TWILIO_SSID,
-      to: process.env.MY_PHONE!,
-      body: `Your login token is ${payload}.`,
-    });
+    // await twilioClient.messages.create({
+    //   messagingServiceSid: process.env.TWILIO_SSID,
+    //   to: process.env.MY_PHONE!,
+    //   body: `Your login token is ${payload}.`,
+    // });
   } else if (email) {
-    const email = await mail.send({
-      from: "moo1323@naver.com",
-      to: "moo1323@naver.com",
-      subject: "Your Carrot Market Verification Email",
-      text: `Your token is ${payload}`,
-      html: `<strong>Your token is ${payload}</strong>`,
-    });
-
-    console.log(email);
+    // const email = await mail.send({
+    //   from: "moo1323@naver.com",
+    //   to: "moo1323@naver.com",
+    //   subject: "Your Carrot Market Verification Email",
+    //   text: `Your token is ${payload}`,
+    //   html: `<strong>Your token is ${payload}</strong>`,
+    // });
   }
 
   res.json({ ok: true });
