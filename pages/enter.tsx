@@ -75,6 +75,7 @@ const Enter: NextPage = () => {
           >
             <Input
               register={tokenRegister("token", { required: true })}
+              required
               name="token"
               label="Confirmation Token"
               type="number"
@@ -119,6 +120,7 @@ const Enter: NextPage = () => {
               {method === "email" ? (
                 <Input
                   register={register("email", { required: true })}
+                  required
                   name="email"
                   label="Email address"
                   type="email"
@@ -127,6 +129,7 @@ const Enter: NextPage = () => {
               {method === "phone" ? (
                 <Input
                   register={register("phone", { required: true })}
+                  required
                   name="phone"
                   label="Phone number"
                   type="number"

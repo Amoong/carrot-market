@@ -1,6 +1,6 @@
 import { UseFormRegisterReturn } from "react-hook-form";
 
-interface InputProps {
+interface InputProps extends React.InputHTMLAttributes<React.ReactNode> {
   label: string;
   name: string;
   kind?: "text" | "phone" | "price";
