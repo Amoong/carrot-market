@@ -26,7 +26,8 @@ export default function useMutation<T = any>(
       body: JSON.stringify(data),
     })
       .then((response) =>
-        response.json().catch(() => {
+        response.json().catch((error) => {
+          console.error(error);
           return;
         })
       )
