@@ -5,20 +5,25 @@ export interface ResponseType {
   [key: string]: any;
 }
 
+type Method = "POST" | "GET" | "DELETE";
+
 interface ConfigType {
-  method: "POST" | "GET" | "DELETE";
+  methods: Method[];
   handler: (req: NextApiRequest, res: NextApiResponse) => void;
   isPrivate?: boolean;
 }
 
 export default function withHandler({
-  method,
+  methods,
   handler,
   isPrivate = true,
 }: ConfigType) {
   return async function (req: NextApiRequest, res: NextApiResponse) {
-    if (method !== req.method) {
-      return res.status(405).setHeader("Allow", `[${method}]`).end();
+    if (req.method && !methods.includes(req.method as any)) {
+      return res
+        .status(405)
+        .setHeader("Allow", `[${methods.map((m) => m)}]`)
+        .end();
     }
 
     if (isPrivate && !req.session.user) {
