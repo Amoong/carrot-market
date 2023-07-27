@@ -21,7 +21,7 @@ async function handler(
           avatar: true,
         },
       },
-      Answer: {
+      answers: {
         select: {
           answer: true,
           id: true,
@@ -36,8 +36,8 @@ async function handler(
       },
       _count: {
         select: {
-          Answer: true,
-          Wondering: true,
+          answers: true,
+          wonderings: true,
         },
       },
     },
