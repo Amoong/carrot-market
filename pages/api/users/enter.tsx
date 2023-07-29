@@ -4,12 +4,12 @@ import withHandler, { ResponseType } from "@libs/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Twilio } from "twilio";
 
-mail.setApiKey(process.env.SEND_GRID_API_KEY!);
+// mail.setApiKey(process.env.SEND_GRID_API_KEY!);
 
-const twilioClient = new Twilio(
-  process.env.TWILIO_SID,
-  process.env.TWILIO_TOKEN
-);
+// const twilioClient = new Twilio(
+//   process.env.TWILIO_SID,
+//   process.env.TWILIO_TOKEN
+// );
 
 async function handler(
   req: NextApiRequest,
@@ -40,6 +40,8 @@ async function handler(
       },
     },
   });
+
+  console.log(token);
 
   if (phone) {
     // await twilioClient.messages.create({
