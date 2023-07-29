@@ -25,16 +25,11 @@ interface PostsResponse {
 
 const Community: NextPage = () => {
   const { latitude, longitude } = useCoords();
-  const { data, mutate } = useSWR<PostsResponse>(
-    `/api/posts?latitude=${latitude}&longitude=${longitude}`
+  const { data } = useSWR<PostsResponse>(
+    latitude && longitude
+      ? `/api/posts?latitude=${latitude}&longitude=${longitude}`
+      : null
   );
-
-  useEffect(() => {
-    if (latitude && longitude) {
-      console.log(latitude, longitude);
-      mutate();
-    }
-  }, [latitude, longitude, mutate]);
 
   return (
     <Layout hasTabBar title="동네생활">

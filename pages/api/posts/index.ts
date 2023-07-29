@@ -19,8 +19,6 @@ async function handler(
     const parsedLatitude = parseFloat(latitude?.toString() ?? "0");
     const parsedLongitude = parseFloat(longitude?.toString() ?? "0");
 
-    console.log(parsedLatitude, parsedLongitude);
-
     const posts = await client.post.findMany({
       where: {
         latitude: {
