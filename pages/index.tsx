@@ -2,16 +2,11 @@ import FloatingButton from "@components/floating-button";
 import Item from "@components/item";
 import Layout from "@components/layout";
 import useUser from "@libs/client/useUser";
-import { Product } from "@prisma/client";
+import { ProductWithFav } from "common/types";
 import type { NextPage } from "next";
 import Head from "next/head";
 import useSWR from "swr";
 
-interface ProductWithFav extends Product {
-  _count: {
-    favs: number;
-  };
-}
 interface ProductsResponse {
   ok: boolean;
   products: ProductWithFav[];
