@@ -124,6 +124,7 @@ model Review {
   createdById  Int
   createdFor   User     @relation(name: "receivedReview", fields: [createdForId], references: [id], onDelete: Cascade)
   createdForId Int
+  review       String?  @db.MediumText
   score        Int
 
   @@index([createdById])
