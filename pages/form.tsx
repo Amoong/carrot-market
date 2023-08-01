@@ -24,8 +24,6 @@ export default function Forms() {
     console.log(errors);
   };
 
-  console.log(errors);
-
   return (
     <form onSubmit={handleSubmit(onValid, onInvalid)}>
       <input
