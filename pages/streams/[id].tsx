@@ -3,30 +3,40 @@ import Layout from "@components/layout";
 import Message from "@components/message";
 import useSWR from "swr";
 import { useRouter } from "next/router";
-import { Stream } from "@prisma/client";
+import { Message as PrismaMessage, Stream } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
+import useUser from "@libs/client/useUser";
+import { useEffect } from "react";
 
+interface StreamWithMessage extends Stream {
+  messages: Pick<PrismaMessage, "id" | "message" | "userId">[];
+}
 interface StreamResponse {
   ok: boolean;
-  stream?: Stream;
+  stream?: StreamWithMessage;
 }
 
 interface MessageForm {
   message: string;
 }
 
-const Stream: NextPage = () => {
+interface MessageResponse {
+  ok: boolean;
+  message: PrismaMessage;
+}
+
+const StreamDetail: NextPage = () => {
   const router = useRouter();
+  const { user } = useUser();
   const { register, handleSubmit, reset } = useForm<MessageForm>();
 
-  const { data } = useSWR<StreamResponse>(
+  const { data, mutate } = useSWR<StreamResponse>(
     router.query.id ? `/api/streams/${router.query.id}` : null
   );
 
-  const [sendMessage, { loading }] = useMutation(
-    `/api/streams/${router.query.id}/message`
-  );
+  const [sendMessage, { loading, data: messageResponse }] =
+    useMutation<MessageResponse>(`/api/streams/${router.query.id}/message`);
 
   const onValid = (form: MessageForm) => {
     if (loading) {
@@ -36,6 +46,12 @@ const Stream: NextPage = () => {
     sendMessage(form);
     reset();
   };
+
+  useEffect(() => {
+    if (messageResponse && messageResponse.ok) {
+      mutate();
+    }
+  }, [messageResponse, mutate]);
 
   return (
     <Layout canGoBack>
@@ -53,9 +69,13 @@ const Stream: NextPage = () => {
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Live Chat</h2>
           <div className="h-[50vh] space-y-4 overflow-y-scroll py-10  px-4 pb-16">
-            <Message message="Hi how much are you selling them for?" />
-            <Message message="I want ￦20,000" reversed />
-            <Message message="미쳤어" />
+            {data?.stream?.messages.map((message) => (
+              <Message
+                key={message.id}
+                message={message.message}
+                reversed={user?.id === message.userId}
+              />
+            ))}
           </div>
           <form
             onSubmit={handleSubmit(onValid)}
@@ -80,4 +100,4 @@ const Stream: NextPage = () => {
   );
 };
 
-export default Stream;
+export default StreamDetail;
