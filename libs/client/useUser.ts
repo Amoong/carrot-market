@@ -14,7 +14,7 @@ export default function useUser() {
 
   useEffect(() => {
     if (data && !data.ok) {
-      router.replace("/enter");
+      location.href = "/enter";
     }
   }, [data, router]);
 

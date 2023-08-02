@@ -52,8 +52,7 @@ const Enter: NextPage = () => {
       return;
     }
 
-    await confirmToken(validForm);
-    router.replace("/");
+    confirmToken(validForm);
   };
 
   const router = useRouter();
