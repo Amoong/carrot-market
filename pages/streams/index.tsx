@@ -7,7 +7,7 @@ import { Stream } from "@prisma/client";
 
 interface StreamsResponse {
   ok: boolean;
-  streams: Stream[];
+  streams?: Stream[];
 }
 
 const Stream: NextPage = () => {
@@ -16,7 +16,7 @@ const Stream: NextPage = () => {
   return (
     <Layout hasTabBar title="라이브">
       <div className=" space-y-4 divide-y-[1px]">
-        {data?.streams.map((stream) => (
+        {data?.streams?.map((stream) => (
           <Link key={stream.id} href={`/streams/${stream.id}`}>
             <a className="block px-4  pt-4">
               <div className="aspect-video w-full rounded-md bg-slate-300 shadow-sm" />

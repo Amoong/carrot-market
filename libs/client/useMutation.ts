@@ -15,25 +15,25 @@ export default function useMutation<T = any>(
   const [data, setData] = useState<T>();
   const [error, setError] = useState<undefined | any>(undefined);
 
-  function enter(data: any) {
+  async function enter(data: any) {
     setLoading(true);
 
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) =>
-        response.json().catch((error) => {
-          console.error(error);
-          return;
-        })
-      )
-      .then(setData)
-      .catch(setError)
-      .finally(() => setLoading(false));
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const json = await res.json();
+      setData(json);
+    } catch (error) {
+      setError(error);
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return [enter, { loading, data, error }];

@@ -47,12 +47,13 @@ const Enter: NextPage = () => {
     enter(validForm);
   };
 
-  const onTokenValid = (validForm: TokenForm) => {
+  const onTokenValid = async (validForm: TokenForm) => {
     if (tokenLoading) {
       return;
     }
 
-    confirmToken(validForm);
+    await confirmToken(validForm);
+    router.replace("/");
   };
 
   const router = useRouter();
