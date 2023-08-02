@@ -32,7 +32,8 @@ const StreamDetail: NextPage = () => {
   const { register, handleSubmit, reset } = useForm<MessageForm>();
 
   const { data, mutate } = useSWR<StreamResponse>(
-    router.query.id ? `/api/streams/${router.query.id}` : null
+    router.query.id ? `/api/streams/${router.query.id}` : null,
+    { refreshInterval: 1000 }
   );
 
   const [sendMessage, { loading, data: messageResponse }] =
