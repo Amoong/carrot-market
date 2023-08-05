@@ -62,7 +62,7 @@ const EditProfile: NextPage = () => {
     }
   }, [data]);
 
-  const onValid = ({ email, phone, name }: EditProfileForm) => {
+  const onValid = async ({ email, phone, name, avatar }: EditProfileForm) => {
     if (loading) {
       return;
     }
@@ -72,7 +72,13 @@ const EditProfile: NextPage = () => {
       return;
     }
 
-    editProfile({ email, phone, name });
+    if (avatar && avatar.length > 0) {
+      const res = await fetch("/api/files");
+      const json = await res.json();
+      console.log(json);
+    } else {
+      editProfile({ email, phone, name });
+    }
   };
 
   return (

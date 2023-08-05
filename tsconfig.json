@@ -19,7 +19,8 @@
       "@libs/*": ["libs/*"],
       "@components/*": ["components/*"],
       "@styles/*": ["styles/*"]
-    }
+    },
+    "typeRoots": ["./env.d.ts"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
