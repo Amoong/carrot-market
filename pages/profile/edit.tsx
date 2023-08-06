@@ -75,7 +75,14 @@ const EditProfile: NextPage = () => {
     if (avatar && avatar.length > 0) {
       const res = await fetch("/api/files");
       const json = await res.json();
-      console.log(json);
+
+      const form = new FormData();
+      form.append("file", avatar[0], user?.id.toString());
+
+      await fetch(json.uploadURL, {
+        method: "POST",
+        body: form,
+      });
     } else {
       editProfile({ email, phone, name });
     }
