@@ -26,7 +26,7 @@ const Profile: NextPage = () => {
           {user?.avatar ? (
             <img
               className="h-16 w-16 rounded-full"
-              src={`https://imagedelivery.net/HNmhwe6S0FPTqoDgwXQ0qQ/${user.avatar}/public`}
+              src={`https://imagedelivery.net/HNmhwe6S0FPTqoDgwXQ0qQ/${user.avatar}/avatar`}
               alt=""
             />
           ) : (

@@ -41,7 +41,7 @@ const EditProfile: NextPage = () => {
   useEffect(() => {
     if (user?.avatar) {
       setAvatarPreview(
-        `https://imagedelivery.net/HNmhwe6S0FPTqoDgwXQ0qQ/${user.avatar}/public`
+        `https://imagedelivery.net/HNmhwe6S0FPTqoDgwXQ0qQ/${user.avatar}/avatar`
       );
     }
   }, [user?.avatar]);
@@ -95,8 +95,6 @@ const EditProfile: NextPage = () => {
           body: form,
         })
       ).json();
-
-      console.log(avatarId);
 
       editProfile({ email, phone, name, avatarId });
     } else {
