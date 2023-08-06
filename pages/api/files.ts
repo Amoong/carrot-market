@@ -19,7 +19,7 @@ async function handler(
 
   res.json({
     ok: true,
-    ...resJson.result,
+    uploadURL: resJson.result.uploadURL,
   });
 }
 
