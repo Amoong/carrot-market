@@ -9,7 +9,7 @@ async function handler(
 ) {
   if (req.method === "POST") {
     const {
-      body: { email, phone, name },
+      body: { email, phone, name, avatarId },
       session: { user },
     } = req;
 
@@ -67,6 +67,17 @@ async function handler(
         },
         data: {
           phone,
+        },
+      });
+    }
+
+    if (avatarId) {
+      await client.user.update({
+        where: {
+          id: user?.id,
+        },
+        data: {
+          avatar: avatarId,
         },
       });
     }

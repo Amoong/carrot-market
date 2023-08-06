@@ -39,6 +39,14 @@ const EditProfile: NextPage = () => {
   }, [avatar]);
 
   useEffect(() => {
+    if (user?.avatar) {
+      setAvatarPreview(
+        `https://imagedelivery.net/HNmhwe6S0FPTqoDgwXQ0qQ/${user.avatar}/public`
+      );
+    }
+  }, [user?.avatar]);
+
+  useEffect(() => {
     if (user?.email) {
       setValue("email", user.email);
     }
@@ -79,10 +87,18 @@ const EditProfile: NextPage = () => {
       const form = new FormData();
       form.append("file", avatar[0], user?.id.toString());
 
-      await fetch(json.uploadURL, {
-        method: "POST",
-        body: form,
-      });
+      const {
+        result: { id: avatarId },
+      } = await (
+        await fetch(json.uploadURL, {
+          method: "POST",
+          body: form,
+        })
+      ).json();
+
+      console.log(avatarId);
+
+      editProfile({ email, phone, name, avatarId });
     } else {
       editProfile({ email, phone, name });
     }
