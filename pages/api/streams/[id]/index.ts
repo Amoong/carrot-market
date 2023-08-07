@@ -8,6 +8,7 @@ async function handler(
   res: NextApiResponse<ResponseType>
 ) {
   const {
+    session: { user },
     query: { id },
   } = req;
 
@@ -15,19 +16,16 @@ async function handler(
     where: {
       id: Number(id?.toString()),
     },
-    select: {
-      id: true,
+    include: {
       messages: true,
-      name: true,
-      price: true,
-      user: {
-        select: {
-          id: true,
-          avatar: true,
-        },
-      },
     },
   });
+
+  const isOwner = user?.id === stream?.userId;
+  if (stream && !isOwner) {
+    stream.cloudflareKey = "";
+    stream.cloudflareUrl = "";
+  }
 
   res.json({
     ok: true,
