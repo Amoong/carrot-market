@@ -18,6 +18,8 @@ async function handler(
     select: {
       id: true,
       messages: true,
+      name: true,
+      price: true,
       user: {
         select: {
           id: true,

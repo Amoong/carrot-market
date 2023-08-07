@@ -11,7 +11,7 @@ async function handler(
     {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${process.env.CLOUD_FLARE_TOKEN}`,
+        Authorization: `Bearer ${process.env.CLOUD_FLARE_IMAGE_TOKEN}`,
       },
     }
   );

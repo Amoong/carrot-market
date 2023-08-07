@@ -13,11 +13,31 @@ async function handler(
       session: { user },
     } = req;
 
+    const response = await fetch(
+      `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUD_FLARE_ACCOUNT_ID}/stream/live_inputs`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.CLOUD_FLARE_STREAM_TOKEN}`,
+          body: `{"meta": {"name":${name}},"recording": { "mode": "automatic" }}`,
+        },
+      }
+    );
+    const {
+      result: {
+        uid,
+        rtmps: { url, streamKey },
+      },
+    } = await response.json();
+
     const stream = await client.stream.create({
       data: {
         name,
         price,
         description,
+        cloudflareId: uid,
+        cloudflareUrl: url,
+        cloudflareKey: streamKey,
         user: {
           connect: {
             id: Number(user?.id),
