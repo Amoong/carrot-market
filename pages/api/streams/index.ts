@@ -19,10 +19,14 @@ async function handler(
         method: "POST",
         headers: {
           Authorization: `Bearer ${process.env.CLOUD_FLARE_STREAM_TOKEN}`,
-          body: `{"meta": {"name":${name}},"recording": { "mode": "automatic" }}`,
         },
+        body: JSON.stringify({
+          meta: { name },
+          recording: { mode: "automatic" },
+        }),
       }
     );
+
     const {
       result: {
         uid,
@@ -53,7 +57,6 @@ async function handler(
   } else if (req.method === "GET") {
     const streams = await client.stream.findMany({
       take: 10,
-      skip: 10,
     });
 
     res.json({
