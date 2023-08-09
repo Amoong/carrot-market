@@ -2,7 +2,12 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  images: { domains: ["imagedelivery.net"] },
+  images: {
+    domains: [
+      "imagedelivery.net",
+      "customer-pqz61m3zr8qeuu63.cloudflarestream.com",
+    ],
+  },
 };
 
 module.exports = nextConfig;
