@@ -3,9 +3,12 @@ import Input from "@components/input";
 import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
 import type { NextPage } from "next";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+
+const DynamicImport = dynamic(() => import("@components/dynamicImport"));
 
 interface EnterForm {
   email?: string;
@@ -126,14 +129,17 @@ const Enter: NextPage = () => {
                 />
               ) : null}
               {method === "phone" ? (
-                <Input
-                  register={register("phone", { required: true })}
-                  required
-                  name="phone"
-                  label="Phone number"
-                  type="number"
-                  kind="phone"
-                />
+                <>
+                  <Input
+                    register={register("phone", { required: true })}
+                    required
+                    name="phone"
+                    label="Phone number"
+                    type="number"
+                    kind="phone"
+                  />
+                  <DynamicImport />
+                </>
               ) : null}
               {method === "email" ? (
                 <Button text={loading ? "loading..." : "Get login link"} />
