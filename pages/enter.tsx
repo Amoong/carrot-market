@@ -5,10 +5,19 @@ import { cls } from "@libs/client/utils";
 import type { NextPage } from "next";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-const DynamicImport = dynamic(() => import("@components/dynamicImport"));
+const DynamicImport = dynamic(
+  () =>
+    new Promise((resolve) =>
+      setTimeout(() => resolve(import("@components/dynamicImport")), 5000)
+    ),
+  {
+    // loading: () => <span>loading~~</span>,
+    suspense: true,
+  }
+);
 
 interface EnterForm {
   email?: string;
@@ -138,7 +147,9 @@ const Enter: NextPage = () => {
                     type="number"
                     kind="phone"
                   />
-                  <DynamicImport />
+                  <Suspense fallback={<span>i'm suspense loading</span>}>
+                    <DynamicImport />
+                  </Suspense>
                 </>
               ) : null}
               {method === "email" ? (
